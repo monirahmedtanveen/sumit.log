@@ -1,9 +1,8 @@
-
 ---
 layout: post
 comments: false
 title: "A Simple Introduction To Softmax Function"
-date: 2018-05-25 10:18:00
+date: 2018-04-08 00:15:06
 tags: softmax review
 ---
 
@@ -11,6 +10,11 @@ tags: softmax review
 
 
 <!--more-->
+
+{: class="table-of-content"}
+* TOC
+{:toc}
+
 
 The softmax function also refered as "normalized exponential function" takes an N-dimensional vector of arbitrary real values and generates another N-dimensional vecotor with real values in the range (0, 1) that add up to 1.0. <br>
 It maps $S(x) :\mathbb{R}^N \rightarrow \mathbb{R}^N$ :
