@@ -17,9 +17,9 @@ tags: softmax review
 
 
 The softmax function also refered as "normalized exponential function" takes an N-dimensional vector of arbitrary real values and generates another N-dimensional vecotor with real values in the range (0, 1) that add up to 1.0. <br>
-It maps $S(x) :\mathbb{R}^N \rightarrow \mathbb{R}^N$ :
+It maps $$S(x) :\mathbb{R}^N \rightarrow \mathbb{R}^N$$ :
 
-$S(x) : \begin{bmatrix}
+$$S(x) : \begin{bmatrix}
     x_{1}\\
     x_{2}\\
     x_{3}\\
@@ -31,7 +31,7 @@ $S(x) : \begin{bmatrix}
     S_{3}\\
     \vdots \\
     S_{N}
-\end{bmatrix}$ <br>
+\end{bmatrix}$$ <br>
 For a particular element in the vector the formula is : $S_j = \frac { { e }^{ x\_ j } }{ \sum _{ i=1 }^{ N }{ { e }^{ x\_ i } }  }$  &nbsp;&nbsp;  for $i = 1, ..., N$ <br>
 The result of exponent of any real number is always $\ge 0$. Since, the numerator appears in the denominator and summed up with other positive numbers so, $S_j < 1$ and in the range (0, 1).
 
