@@ -11,6 +11,7 @@ tags: word2vec skipgram review
 
 
 <!--more-->
+
 {: class="table-of-content"}
 * TOC
 {:toc}
