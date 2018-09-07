@@ -1,16 +1,19 @@
-
 ---
 layout: post
 comments: false
 title: "Drawbacks of Convolutional Neural Networks"
 date: 2018-07-21 10:18:00
-tags: computervision cnn review 
+tags: computervision cnn review
 ---
 
 >  Although Convolutional Neural Networks has got tremendous success in Computer Vision field, it has unavoidable limitations like it unability to encode Orientational and relative spatial relationships, view angle.  
 
 
 <!--more-->
+
+{: class="table-of-content"}
+* TOC
+{:toc}
 
 Convolutional Neural Networks(CNN) define an exceptionally powerful class of models. CNN-based models achieving state-of-the-art results in classification, localisation, semantic segmentation and action recognition tasks, amongst others. Nonetheless, they have their limits and they have fundamental drawbacks and sometimes it's quite easy to fool a network. In this post, I rearranged <a href="https://medium.com/ai%C2%B3-theory-practice-business/understanding-hintons-capsule-networks-part-i-intuition-b4b559d1159b">this post</a> from medium to highlight some issues of CNN and add some additional insights.
 
