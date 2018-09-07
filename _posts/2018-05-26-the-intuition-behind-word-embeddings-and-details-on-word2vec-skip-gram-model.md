@@ -11,6 +11,10 @@ tags: word2vec skipgram review
 
 
 <!--more-->
+{: class="table-of-content"}
+* TOC
+{:toc}
+
 
 This tutorial covers the essentials of word embeddings in Natural Language Processing and detail explanation of word2vec skip-gram model. You can find the source code of skip-gram model 
 <a href="https://github.com/sakhawathsumit/word2vec-skip-gram"><font color='black'>here</font></a>.
