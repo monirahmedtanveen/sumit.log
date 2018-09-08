@@ -63,7 +63,7 @@ The neural network architechture of skip-gram model is quite simple. We are goin
 For a specific word in a sentence, we look the words around it in a fixed "window size" and pick one at random. The network is going to estimate the probability for each word in the vocabulary of beign close to the choosen word in the range of window size. Suggested window size is $$5$$, the network will look $$5$$ words behind and $$5$$ words ahead in total $$10$$.<br>
 The output probabilities of words which much likely to appear next to each other or related are higher than the words which are not appearing in similar context or related. For example, if in training session the networks sees word "United" as input, the output probabities are going to be much higher for words like "State" and "Kingdom" than for unrelated words like "Sushi" and "Tofu".<br>
 
-![Skip-gram]({{ /assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/skip-gram.png' = 400x350 | relative_url }})
+![Skip-gram]({{ /assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/skip-gram.png' =400x350 | relative_url }})
 <center>Fig 3. Skip-gram model</center>
 
 We'll train the neural network by feeding word pairs (input, output) from our dataset. As an example, let's consider the sentence<br>
@@ -77,7 +77,7 @@ of **(context, target)** pairs, Recall that skip-gram inverts contexts and targe
 We can not feed word as string to a neural network, so we have to represent the words as vectors. To do this , we first build a vocabulary of words from our training set. Let's say we have 10,000 unique words. We give an unique ID to every word and represent an input word like "ants" as a one-hot vector. This vector will have 10,000 components (one for every word in our vocabulary) and we’ll place a “1” in the position corresponding to the ID of word “ants”, and 0s in all of the other positions.<br>
 The output of the network is a single vector (also with 10,000 components) containing, for every word in our vocabulary, the probability that a randomly selected nearby word is that vocabulary word. It is actually a probability distribution (i.e., a bunch of floating point values, not a one-hot vector).
 
-![Neural Network Architecture]({{ /assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/nn_architechture.png' = 500x350 | relative_url }})
+![Neural Network Architecture]({{ /assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/nn_architechture.png' =500x350 | relative_url }})
 <center>Fig 4. Neural Network Architecture</center>
 
 There is no activation function on the hidden layer neurons, but the output neurons use softmax. We’ll come back to this later.<br>
@@ -86,13 +86,13 @@ There is no activation function on the hidden layer neurons, but the output neur
 For our example, we’re going to say that we’re learning word vectors with 300 features. So the hidden layer is going to be represented by a weight matrix with 10,000 rows (one for every word in our vocabulary) and 300 columns (one for every hidden neuron).<br>
 If you look at the rows of this weight matrix, these are actually what will be our word vectors!
 
-![Hidden Layer]({{ /assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/hidden_layer.png' = 500x350 | relative_url }})
+![Hidden Layer]({{ /assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/hidden_layer.png' =500x350 | relative_url }})
 
 So the end goal of all of this is really just to learn this hidden layer weight matrix – the output layer we’ll just toss when we’re done!<br>
 Let’s get back, though, to working through the definition of this model that we’re going to train.<br>
 Now, you might be asking yourself–“That one-hot vector is almost all zeros… what’s the effect of that?” If you multiply a 1 x 10,000 one-hot vector by a 10,000 x 300 matrix, it will effectively just select the matrix row corresponding to the “1”. Here’s a small example to give you a visual.
 
-![Matrix Multiplication]({{ /assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/matrix_multiplication.png' = 500x250 | relative_url }})
+![Matrix Multiplication]({{ /assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/matrix_multiplication.png' =500x250 | relative_url }})
 
 This means that the hidden layer of this model is really just operating as a lookup table. The output of the hidden layer is just the “word vector” for the input word.
 
@@ -101,7 +101,7 @@ The $$1 x 300$$ word vector for “ants” then gets feed to the output layer. T
 Specifically, each output neuron has a weight vector which it multiplies against the word vector from the hidden layer, then it applies the function $$exp(x)$$ to the result. Finally, in order to get the outputs to sum up to 1, we divide this result by the sum of the results from all 10,000 output nodes.<br>
 Here’s an illustration of calculating the output of the output neuron for the word "car".
 
-![Output Layer]({{ /assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/output_layer.png' = 500x250 | relative_url }})
+![Output Layer]({{ /assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/output_layer.png' =500x250 | relative_url }})
 
 <font color='black'><h2>References</h2></font>
 1. Benjio et al.(2003). A Neural Probabilistic Language Model. Journal of Machine Learning Research (3)1137–1155
