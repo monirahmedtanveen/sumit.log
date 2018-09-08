@@ -32,8 +32,8 @@ $$S(x) : \begin{bmatrix}
     \vdots \\
     S_{N}
 \end{bmatrix}$$ <br>
-For a particular element in the vector the formula is : $S_j = \frac { { e }^{ x\_ j } }{ \sum _{ i=1 }^{ N }{ { e }^{ x\_ i } }  }$  &nbsp;&nbsp;  for $i = 1, ..., N$ <br>
-The result of exponent of any real number is always $\ge 0$. Since, the numerator appears in the denominator and summed up with other positive numbers so, $S_j < 1$ and in the range (0, 1).
+For a particular element in the vector the formula is : $$S_j = \frac { { e }^{ x\_ j } }{ \sum _{ i=1 }^{ N }{ { e }^{ x\_ i } }  }$$  &nbsp;&nbsp;  for $$i = 1, ..., N$$ <br>
+The result of exponent of any real number is always $$\ge 0$$. Since, the numerator appears in the denominator and summed up with other positive numbers so, $$S_j < 1$$ and in the range (0, 1).
 
 
 ```python
@@ -79,12 +79,12 @@ softmax([200, 5000, 1500])
 
 
 To avoiding this Overflow problem we need to normalize the inputs so that it can not be too large or too small. For that, we need to use an arbitrary constant C. <br>
-$ S_j = \frac { C{ e }^{ x\_ j } }{ \sum _{ i=1 }^{ N }{ C{ e }^{ x\_ i } }  }$ <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$=\frac { { e }^{ x\_ j + \log { (C) }  } }{ \sum _{ i=1 }^{ N }{ e^{ x\_ i + \log { (C) }  } }  } $ <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$=\frac { { e }^{ x\_ j + D } }{ \sum _{ i=1 }^{ N }{ e^{ x\_ i + D } }  } $ &nbsp;&nbsp; Since C is a Constant we can replace it with D. <br>
+$$ S_j = \frac { C{ e }^{ x\_ j } }{ \sum _{ i=1 }^{ N }{ C{ e }^{ x\_ i } }  }$$ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$$=\frac { { e }^{ x\_ j + \log { (C) }  } }{ \sum _{ i=1 }^{ N }{ e^{ x\_ i + \log { (C) }  } }  } $$ <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$$=\frac { { e }^{ x\_ j + D } }{ \sum _{ i=1 }^{ N }{ e^{ x\_ i + D } }  } $$ &nbsp;&nbsp; Since C is a Constant we can replace it with D. <br>
 Here, D also an arbitrary constant and to avoid overflow we can choose D as maximum of inputs and negate it. <br>
-$D=-max(x_1,x_2,x_3,...,x_N)$ <br>
-If the interdistance of the inputs is not large it shift the inputs close to 0. All inputs become negative except the maximum $x_j$ becomes 1. Expenents saturates the large negative values to zeros.
+$$D=-max(x_1,x_2,x_3,...,x_N)$$ <br>
+If the interdistance of the inputs is not large it shift the inputs close to 0. All inputs become negative except the maximum $$x_j$$ becomes 1. Expenents saturates the large negative values to zeros.
 
 
 ```python
