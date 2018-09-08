@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "The Intuition behind Word Embeddings And Details On Word2vec Skip-gram Model"
 date: 2018-05-26 10:00:00
-tags: word2vec skip-gram review
+tags: nlp word2vec skip-gram review
 ---
 
 >  Word2Vec is a group of models (skip-gram and continuous bag of words) that tries to represent each word in a large text as a vector in a space of N dimensions to preserve the semantic and syntactic relationships of words. Currently, word2vec motheds are extensively used in Natural Language Processing.
