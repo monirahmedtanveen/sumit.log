@@ -1,0 +1,22 @@
+title: Sumit'Log
+name: "Sumit's Notes"
+author: Sakhawat H Sumit
+linkedin_username: sakhawathsumit
+twitter_username: sakhawathsumit
+baseurl: "/sumit-log"
+description: Document my learning notes.
+profile_url: "http://sakhawathsumit.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+excerpt_separator: <!--more-->
+gems:
+  - jekyll-feed
+exclude:
+  - Gemfile
+  - Gemfile.lock
+kramdown:
+  input: GFM
+  auto_ids: true
+  syntax_highlighter: rouge

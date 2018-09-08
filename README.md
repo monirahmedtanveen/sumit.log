@@ -1,1 +1,2 @@
-# sumit-log
+# Sumit'Log
+Sumit's Blog
