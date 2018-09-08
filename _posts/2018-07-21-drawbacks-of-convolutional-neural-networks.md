@@ -20,7 +20,7 @@ Convolutional Neural Networks(CNN) define an exceptionally powerful class of mod
 ##  CNN do not encode the position and orientation of  object
 
 Let us consider a very simple and non-technical example. Imagine a face. What are the components? We have the face oval, two eyes, a nose and a mouth. For a CNN, a mere presence of these objects can be a very strong indicator to consider that there is a face in the image. Orientational and relative spatial relationships between these components are not very important to a CNN.
-<img src="/assets/images/posts/2018-07-21-drawbacks-of-convolutional-neural-networks/face.png" alt="face">
+<img src="assets/images/posts/2018-07-21-drawbacks-of-convolutional-neural-networks/face.png" alt="face">
 <center> To a CNN, both pictures are similar, since they both contain similar elements</center>
 
 How do CNNs work? The main component of a CNN is a convolutional layer. Its job is to detect important features in the image pixels. Layers that are deeper (closer to the input) will learn to detect simple features such as edges and color gradients, whereas higher layers will combine simple features into more complex features. Finally, dense layers at the top of the network will combine very high level features and produce classification predictions.
@@ -37,7 +37,7 @@ CNN do not encode the position and orientation of the object into their predicti
 ## Lack of ability to be spatially invariant to the input data
 
 In order to correctly do classification and object recognition, it is important to preserve hierarchical pose relationships between object parts. Consider the image below. You can easily recognize that this is the Statue of Liberty, even though all the images show it from different angles. This is because internal representation of the Statue of Liberty in your brain does not depend on the view angle. You have probably never seen these exact pictures of it, but you still immediately knew what it was.
-<img src="/assets/images/posts/2018-07-21-drawbacks-of-convolutional-neural-networks/Statue-of-Liberty.jpeg" alt="Statue of Liberty">
+<img src="assets/images/posts/2018-07-21-drawbacks-of-convolutional-neural-networks/Statue-of-Liberty.jpeg" alt="Statue of Liberty">
 <center>Your brain can easily recognize this is the same object, even though all photos are taken from different angles. CNNs do not have this capability</center>
 
 For a CNN, this task is really hard because it does not have this built-in understanding of 3D space. In order to learn to tell object apart, the human brain needs to see only a couple of dozens of examples, hundreds at most. CNNs, on the other hand, need tens of thousands of examples to achieve very good performance, which seems like a brute force approach that is clearly inferior to what we do with our brains.
