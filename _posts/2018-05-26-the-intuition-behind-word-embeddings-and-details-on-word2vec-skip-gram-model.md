@@ -26,7 +26,7 @@ The idea of Word Embeddings originally introduced by <a href="http://www.jmlr.or
 Generally, a feed-forward neural network takes the words from a vocabulary as input and embeds them as vectors, then optimized through a back-propagation algorithm. The weights of the first layer is used as word embeddings which is often refered as Embedding Layer. After the embeddings, semantically similar words have similar vectors.<br>
 
 <div style="align: left; text-align:center;">
-    ![Word Embedding]({{ '/assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/word_embed.jpeg =500x400' | relative_url }})
+    ![Word Embedding]({{ '/assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/word_embed.jpeg' | relative_url }})
     <div class="caption">Fig 1. Word embeddings from <a href="http://www.iro.umontreal.ca/~lisa/pointeurs/turian-wordrepresentations-acl10.pdf"><font color='black'>Turian et al.(2010)</font></a></div>
 </div>
 
