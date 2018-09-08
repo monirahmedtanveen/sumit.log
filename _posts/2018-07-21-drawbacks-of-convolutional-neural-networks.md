@@ -21,6 +21,7 @@ Convolutional Neural Networks(CNN) define an exceptionally powerful class of mod
 
 Let us consider a very simple and non-technical example. Imagine a face. What are the components? We have the face oval, two eyes, a nose and a mouth. For a CNN, a mere presence of these objects can be a very strong indicator to consider that there is a face in the image. Orientational and relative spatial relationships between these components are not very important to a CNN.
 <img src="assets/images/posts/2018-07-21-drawbacks-of-convolutional-neural-networks/face.png" alt="face">
+![Face]({{ '/assets/images/posts/2018-07-21-drawbacks-of-convolutional-neural-networks/face.png' | relative_url }})
 <center> To a CNN, both pictures are similar, since they both contain similar elements</center>
 
 How do CNNs work? The main component of a CNN is a convolutional layer. Its job is to detect important features in the image pixels. Layers that are deeper (closer to the input) will learn to detect simple features such as edges and color gradients, whereas higher layers will combine simple features into more complex features. Finally, dense layers at the top of the network will combine very high level features and produce classification predictions.
