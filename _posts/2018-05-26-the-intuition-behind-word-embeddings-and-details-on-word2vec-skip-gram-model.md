@@ -25,7 +25,7 @@ $$W('dog')=(0.2,0.4,-0.2,...)$$<br>
 The idea of Word Embeddings originally introduced by <a href="http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf"><font color='black'>Bengio et al.(2003)</font></a> in the paper "A Neural Probabilistic Language Model". This paper generally focused on reducing the high dimentionality of word representations in context by "learning a distributed representation for words" and has a great insight about the efficacy of word embeddings.<br>
 Generally, a feed-forward neural network takes the words from a vocabulary as input and embeds them as vectors, then optimized through a back-propagation algorithm. The weights of the first layer is used as word embeddings which is often refered as Embedding Layer. After the embeddings, semantically similar words have similar vectors.<br>
 
-![Word Embedding]({{ '/assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/word_embed.jpeg =500x400' | relative_url }})
+![Word Embedding]({{ '/assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/word_embed.jpeg' = 500x400 | relative_url }})
 <center>Fig 1. Word embeddings from <a href="http://www.iro.umontreal.ca/~lisa/pointeurs/turian-wordrepresentations-acl10.pdf"><font color='black'>Turian et al.(2010)</font></a></center>
 
 <br>In the figure 1, neumerical values are closer to each other as they have semantically similar meaning. And same proparties goes for others.
