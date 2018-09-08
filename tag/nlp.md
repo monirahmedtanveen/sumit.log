@@ -1,5 +1,5 @@
 ---
 layout: tagpage
-title: "Tag: nlp"
-tag: natural language processing
+title: "Tag: natural language processing"
+tag: nlp
 ---
