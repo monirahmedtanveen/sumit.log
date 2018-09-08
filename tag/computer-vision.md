@@ -1,5 +1,5 @@
 ---
 layout: tagpage
 title: "Tag: computer vision"
-tag: computervision
+tag: computer-vision
 ---
