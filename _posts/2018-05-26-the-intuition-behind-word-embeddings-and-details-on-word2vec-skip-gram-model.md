@@ -63,7 +63,7 @@ The neural network architechture of skip-gram model is quite simple. We are goin
 For a specific word in a sentence, we look the words around it in a fixed "window size" and pick one at random. The network is going to estimate the probability for each word in the vocabulary of beign close to the choosen word in the range of window size. Suggested window size is $$5$$, the network will look $$5$$ words behind and $$5$$ words ahead in total $$10$$.<br>
 The output probabilities of words which much likely to appear next to each other or related are higher than the words which are not appearing in similar context or related. For example, if in training session the networks sees word "United" as input, the output probabities are going to be much higher for words like "State" and "Kingdom" than for unrelated words like "Sushi" and "Tofu".<br>
 
-![Skip-gram]({{ '/assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/skip-gram.png' =400x350 | relative_url }})
+![Skip-gram]({{ '/assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/skip-gram.png' =400x250 | relative_url }})
 <center>Fig 3. Skip-gram model</center>
 
 We'll train the neural network by feeding word pairs (input, output) from our dataset. As an example, let's consider the sentence<br>
@@ -86,7 +86,7 @@ There is no activation function on the hidden layer neurons, but the output neur
 For our example, we’re going to say that we’re learning word vectors with 300 features. So the hidden layer is going to be represented by a weight matrix with 10,000 rows (one for every word in our vocabulary) and 300 columns (one for every hidden neuron).<br>
 If you look at the rows of this weight matrix, these are actually what will be our word vectors!
 
-![Hidden Layer]({{ '/assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/hidden_layer.png' =500x350 | relative_url }})
+![Hidden Layer]({{ '/assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/hidden_layer.png' =500x250 | relative_url }})
 
 So the end goal of all of this is really just to learn this hidden layer weight matrix – the output layer we’ll just toss when we’re done!<br>
 Let’s get back, though, to working through the definition of this model that we’re going to train.<br>
