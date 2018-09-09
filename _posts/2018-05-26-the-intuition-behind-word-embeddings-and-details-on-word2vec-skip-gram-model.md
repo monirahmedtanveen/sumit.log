@@ -63,7 +63,7 @@ The neural network architechture of skip-gram model is quite simple. We are goin
 For a specific word in a sentence, we look the words around it in a fixed "window size" and pick one at random. The network is going to estimate the probability for each word in the vocabulary of beign close to the choosen word in the range of window size. Suggested window size is $$5$$, the network will look $$5$$ words behind and $$5$$ words ahead in total $$10$$.<br>
 The output probabilities of words which much likely to appear next to each other or related are higher than the words which are not appearing in similar context or related. For example, if in training session the networks sees word "United" as input, the output probabities are going to be much higher for words like "State" and "Kingdom" than for unrelated words like "Sushi" and "Tofu".<br>
 
-![Skip-gram]({{ '/assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/skip-gram.png' =400x250 | relative_url }})
+![Skip-gram]({{ '/assets/images/posts/2018-05-26-the-intuition-behind-word-embeddings-and-details-on-word2vec-skip-gram-model/skip-gram.png' width=400, height=250 | relative_url }})
 <center>Fig 3. Skip-gram model</center>
 
 We'll train the neural network by feeding word pairs (input, output) from our dataset. As an example, let's consider the sentence<br>
