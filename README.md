@@ -1,2 +1,2 @@
 # Sumit'Log
-Sumit's Blog
+Sumit's Blog Page https://sakhawathsumit.github.io/sumit.log/.
