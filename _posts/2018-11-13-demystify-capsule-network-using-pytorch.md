@@ -54,7 +54,7 @@ Encoder part of the network takes as input a 28x28 MNIST digit image and learns 
 
 Lats start with some random input image (28×28 pixels, 1 color channel = grayscale) and label, like MNIST.
 - Pytorch convention -<br>
-     Conv Layer input size $(N,C_{in},H,W)$ and output size $(N,C_{out},H_{out},W_{out})$ <br>
+     Conv Layer input size $$(N,C_{in},H,W)$$ and output size $$(N,C_{out},H_{out},W_{out})$$ <br>
      here, N = # of sample, C = # of channel, H = height, W = width
 
 
@@ -89,13 +89,13 @@ print('Output size - ', conv_layer_out.size())
     
 
 - Calculate output of convolution layer <br>
-$ output \ height = \dfrac{height - kernel\_size + 2 * padding}{stride} + 1$ <br>
-$ output \ width = \dfrac{width - kernel\_size + 2 * padding}{stride} + 1$
+$$ output \ height = \dfrac{height - kernel\_size + 2 * padding}{stride} + 1$$ <br>
+$$ output \ width = \dfrac{width - kernel\_size + 2 * padding}{stride} + 1$$
 
 ## Primary Capsule layer
 In this layer, we replace the scaler-output feature detector of CNN with 8-dim vector output capsule for inverse rendering. Each capsule represents every location or entity in the image and encodes different instantiation parameter such as pose (position, size, orientation), deformation, velocity, albedo, hue, texture, etc. If we make slight changes in the image, capsules values also changes accordingly. This is maintained throughout the network. This is called Equivarience. Traditional CNN fails to encode these feature due to the nature of scalar-output feature detector and pooling layers.    
 
-This layer can be designed using several Convolution layer. In the paper, authors used a stack of 8 Convolution layer each with 32 feature maps, kernel size of 9x9, stride 2 and zero padding. We pass the output of the first convolution through every convolution in this layer and our expected final output is $[batch\_size, primary\_num\_capsule, primary\_capsule\_dim]$. Here each capsules dimension should be 8 which is actually equal to the number of convolution layer in this layer. Initially we will get output tensor of shape $[batch\_size, primary\_num\_conv, C_{out}, H_{out}, W_{out}]$. So we need to reshape the initial output shape to get our expected shape.
+This layer can be designed using several Convolution layer. In the paper, authors used a stack of 8 Convolution layer each with 32 feature maps, kernel size of 9x9, stride 2 and zero padding. We pass the output of the first convolution through every convolution in this layer and our expected final output is $$[batch\_size, primary\_num\_capsule, primary\_capsule\_dim]$$. Here each capsules dimension should be 8 which is actually equal to the number of convolution layer in this layer. Initially we will get output tensor of shape $$[batch\_size, primary\_num\_conv, C_{out}, H_{out}, W_{out}]$$. So we need to reshape the initial output shape to get our expected shape.
 
 > In total Primary Capsules has [32 × 6 × 6] capsule outputs (each output is an 8D vector) and each capsule in the [6 × 6] grid is sharing their weights with each other.  
 
@@ -137,13 +137,12 @@ print('Final output shape - ', primary_capsule_out.size())
 
 The length of the output vector of a capsule presents the probability of the entity present in current input that particular capsule is looking for and the orientation of this output vector estimates pose parameters. To achieve this functionality we apply a non-linear 'squashing' activation function to ensure the length of vector in between 0-1 where short vectors get shrunk to almost zero length and long vectors get shrunk to a length slightly below 1. 
 $$v_{j} = \dfrac{||s_j||^2}{1 + ||s_j||^2} \dfrac{s_j}{||s_j||}$$ <br>
-where $v_j$ is the output vector of capsule $j$ and $s_j$ is the total input from capsule $j$. <br>
+where $$v_j$$ is the output vector of capsule $$j$$ and $$s_j$$ is the total input from capsule $$j$$. <br>
 - Note <br>
-The derivative of $||s_j||$ is undefined when $||s_j||=0$. During training if a vector is zero, the gradients will be nan. To avoid this situation we add a tiny epsilon with squared norm then apply square root. <br>
-$||s_j||  \approx  \sqrt{\sum\limits_{i}{{s_{i}}^{2}} + \epsilon}$
+The derivative of $$||s_j||$$ is undefined when $$||s_j||=0$$. During training if a vector is zero, the gradients will be nan. To avoid this situation we add a tiny epsilon with squared norm then apply square root. <br>
+$$||s_j||  \approx  \sqrt{\sum\limits_{i}{{s_{i}}^{2}} + \epsilon}$$
 
-
-The second part of sqash function $\dfrac{s_j}{||s_j||}$ is a unit vector means its length is 1 and the first part $\dfrac{||s_j||^2}{1 + ||s_j||^2}$ is a scalar, we scale the unit vector with this scalar to ensure long vectors length is close to 1 and short length is close to zero. 
+The second part of sqash function $$\dfrac{s_j}{||s_j||}$$ is a unit vector means its length is 1 and the first part $$\dfrac{||s_j||^2}{1 + ||s_j||^2}$$ is a scalar, we scale the unit vector with this scalar to ensure long vectors length is close to 1 and short length is close to zero. 
 
 Now lets experiment this effect with some dummy numbers,
 
@@ -161,7 +160,7 @@ plt.show()
 ![squash]({{ '/assets/images/posts/2018-11-13-demystify-capsule-network-using-pytorch/squash.png' | relative_url }})
 
 
-We can see for large value of $x$, $y$ gets close to 1 and for small value gets close to 0. Here, we assume the values $x$ are the dot product/squared norm of any vector.
+We can see for large value of $$x$$, $$y$$ gets close to 1 and for small value gets close to 0. Here, we assume the values $$x$$ are the dot product/squared norm of any vector.
 
 
 We compute the squash function for all 8 dimensional capsule vector.
@@ -202,9 +201,9 @@ This final layer of Encoder has one 16 dimensional capsule for each digit class 
 Every capsule in the Primary layer tries to predict the output of every capsule in Digit layer. Output of primary capsules only send to those capsule in Digit capsule, if primary capsules prediction agrees with the ouput of digit capsule. We take this decision by 'Routing By Agreement'. Digit capsules will get only the appropriate output from primary capsules and more accurately determine the spatial information. We route only between primary and digit capsule because first convolution layer encode lower level features, there is no spatial information in its space to agree on. 
 >A lower-level capsule prefers to send its output to higher level capsules whose activity vectors have a big scalar product with the prediction coming from the lower-level capsule.
 
-Using the output vector of primary capsule we will predict the output vector of digit capsule, both layer are fully connected. To implement this, we first need a weight matrix $W_{ij}$ for each pair of capsule in primary and digit layer. Since the output vector of primary capsule is 8 dimensional and digit capsule is 16 dimensional, $W_{ij}$ will be shape of (16, 8) for each pair. We get the 'prediction vectors' $\hat{u}_{j|i}$ for each pair of capsules (1152 in primary and 10 in digit) by multiplying primary capsule output $u_{i}$ and weight matrix $W_{ij}$.
+Using the output vector of primary capsule we will predict the output vector of digit capsule, both layer are fully connected. To implement this, we first need a weight matrix $$W_{ij}$$ for each pair of capsule in primary and digit layer. Since the output vector of primary capsule is 8 dimensional and digit capsule is 16 dimensional, $$W_{ij}$$ will be shape of (16, 8) for each pair. We get the 'prediction vectors' $$\hat{u}_{j|i}$$ for each pair of capsules (1152 in primary and 10 in digit) by multiplying primary capsule output $$u_{i}$$ and weight matrix $$W_{ij}$$.
 $$\hat{u}_{j|i} = W_{ij}u_{i}$$ <br>
-So, for all capsule pair the shape of $w_{ij}$ will be [batch_size, 1152, 10, 16, 8] and we need to make 10 copy of all 1152 primary capsules as we have 10 digit capsule so $u_i$ will be [batch_size, 1152, 10, 8]. To multiply these matrix we need to expand a dimension of $u_i$. Final shape of $u_i$ will be [batch_size, 1152, 10, 8, 1]. 
+So, for all capsule pair the shape of $$w_{ij}$$ will be [batch_size, 1152, 10, 16, 8] and we need to make 10 copy of all 1152 primary capsules as we have 10 digit capsule so $$u_i$$ will be [batch_size, 1152, 10, 8]. To multiply these matrix we need to expand a dimension of $$u_i$$. Final shape of $$u_i$$ will be [batch_size, 1152, 10, 8, 1]. 
 
 Now create trainable weight matrix of size [batch_size, 1152, 10, 16, 8] using standard normal distribution.
 
@@ -264,8 +263,7 @@ u_hat.size()
 ### Routing by Agreement
 ![Routing algorithm]({{ '/assets/images/posts/2018-11-13-demystify-capsule-network-using-pytorch/routing-algo.png' | relative_url }})
 
-First we need to define initial routing logits $b_{ij}$ for each capsule pair, which are the log prior probabilities that determine primary capsule i should be coupled to digit capsule j. This log priors are initially zero because we don't know which primary capsule should be coupled with which digit capsule initially. This log priors can be learned discriminatively at the same time as all the other weights. 
-<They depend on the location and type of the two capsules but not on the current input image.> 
+First we need to define initial routing logits $$b_{ij}$$ for each capsule pair, which are the log prior probabilities that determine primary capsule i should be coupled to digit capsule j. This log priors are initially zero because we don't know which primary capsule should be coupled with which digit capsule initially. This log priors can be learned discriminatively at the same time as all the other weights.
 
 
 ```python
@@ -281,7 +279,7 @@ b_ij.size()
 
 
 
-Then we softmax this log prior along the digit capsule dimension to get the probability for each primary and digit capsule pair, which is the routing weights $c_{ij}$.
+Then we softmax this log prior along the digit capsule dimension to get the probability for each primary and digit capsule pair, which is the routing weights $$c_{ij}$$.
 
 
 ```python
@@ -296,7 +294,7 @@ c_ij.size()
 
 
 
-Now compute the weighted sum of all the 'predicted output vectors' $\hat{u}_{j|i}$ for each digit capsule.
+Now compute the weighted sum of all the 'predicted output vectors' $$\hat{u}_{j|i}$$ for each digit capsule.
 $$s_j = \sum{c_{ij}\hat{u}_{j|i}}$$ 
 
 
@@ -320,7 +318,7 @@ s_j.size()
 To perform elementwise matrix multiplication it requires requires 'routing weights' and 'prediction vectors' to have the same rank, which is why we added two extra dimensions of size 1 to routing_weights, earlier. 
 The shape of 'routing weights' is (batch_size, 1152, 10, 1, 1) while the shape of 'prediction vectors' is (batch_size, 1152, 10, 16, 1). Since they don't match on the fourth dimension (1 vs 16), pytorch will automatically broadcasts the 'routing weights' 16 times along that dimension.
 
-The output of digit capsule $s_j$ might give vectors larger than 1, so we need to squash these 16 dimensional vector by $v_j = squash(s_j)$. 
+The output of digit capsule $$s_j$$ might give vectors larger than 1, so we need to squash these 16 dimensional vector by $$v_j = squash(s_j)$$. 
 
 
 ```python
@@ -335,7 +333,7 @@ v_j.size()
 
 
 
-Now we need to determine which primary capsule agrees with which digit capsule. We just simply compute it by the scalar product of each instance between predicted vector by primary capsule $\hat{u}_{i|j}$ and digit capsules output $v_j$.
+Now we need to determine which primary capsule agrees with which digit capsule. We just simply compute it by the scalar product of each instance between predicted vector by primary capsule $$\hat{u}_{i|j}$$ and digit capsules output $$v_j$$.
 $$a_{ij} = v_j .\hat{u}_{j|i}$$
 
 
@@ -377,7 +375,7 @@ a_ij.size()
 
 
 
-We can now update the raw routing weights $b_{i,j}$ by simply adding the agreement $a_{ij}$
+We can now update the raw routing weights $$b_{i,j}$$ by simply adding the agreement $$a_{ij}$$
 
 
 ```python
@@ -396,10 +394,10 @@ According to the paper, we need to iterate step 4 to 7 three times.
 
 ## Margin loss
 The paper uses a special margin loss to discriminate different digits. <br>
-$ L_k = T_k \max(0, m^{+} - ||v_k||)^2 + \lambda (1 - T_k) \max(0, ||v_k|| - m^{-})^2$<br>
+$$ L_k = T_k \max(0, m^{+} - ||v_k||)^2 + \lambda (1 - T_k) \max(0, ||v_k|| - m^{-})^2$$<br>
 
-* $T_k$ is equal to 1 if the digit of class $k$ is present, otherwise 0.
-* In the paper, $m^{+} = 0.9$, $m^{-} = 0.1$ and $\lambda = 0.5$.
+* $$T_k$$ is equal to 1 if the digit of class $$k$$ is present, otherwise 0.
+* In the paper, $$m^{+} = 0.9$$, $$m^{-} = 0.1$$ and $$\lambda = 0.5$$.
 * Loss will be 0 if the correct DigitCap predicts the correct label with greater than 0.9 probability, and it will be non-zero if the probability is less than 0.9.
 * Loss will be zero if the mismatching DigitCap predicts an incorrect label with probability less than 0.1 and non-zero if it predicts an incorrect label with probability more than 0.1.
 
@@ -412,7 +410,7 @@ m_minus = 0.1
 lambda_ = 0.5
 ```
 
-To get $T_k$ for every instance and every class we need to transform the labels into one-hot encoding.
+To get $$T_k$$ for every instance and every class we need to transform the labels into one-hot encoding.
 
 
 ```python
@@ -445,7 +443,7 @@ v_k.size()
 
 
 
-Now let's compute $\max(0, m^{+} - \|\mathbf{v}_k\|)^2$, and reshape the result to get a simple matrix of shape (batch size, 10):
+Now let's compute $$\max(0, m^{+} - \|\mathbf{v}_k\|)^2$$, and reshape the result to get a simple matrix of shape (batch size, 10):
 
 
 ```python
@@ -460,7 +458,7 @@ correct_loss.size()
 
 
 
-Next let's compute $\max(0, \|\mathbf{v}_k\| - m^{-})^2$ and reshape it:
+Next let's compute $$\max(0, \|\mathbf{v}_k\| - m^{-})^2$$ and reshape it:
 
 
 ```python
@@ -492,8 +490,9 @@ margin_loss
 
 
 ## Reconstruction
-In paper an additional reconstruction loss was used to encourage the digit capsules to encode the instantiation parameters of the input digit. During training, instead of using all the 16 dimensinal digit capsule they only use the capsule corresponds to the target digit and masked out other capsules to reconstruct the input image. These 16 dimensional digit capsules are feed into a decoder consisting of 3 fully connected layers and minimize the sum of squared differences between the outputs of the logistic units and the pixel intensities. Reconstruction loss was scale down by 0.0005 so that it does not dominate the margine loss during training. This loss works as regularization to reduce the risk of overfitting.
+In paper an additional reconstruction loss was used to encourage the digit capsules to encode the instantiation parameters of the input digit. During training, instead of using all the 16 dimensinal digit capsule they only use the capsule corresponds to the target digit and masked out other capsules to reconstruct the input image. These 16 dimensional digit capsules are feed into a decoder consisting of 3 fully connected layers and minimize the sum of squared differences between the outputs of the logistic units and the pixel intensities. Reconstruction loss was scale down by 0.0005 so that it does not dominate the margine loss during training. This loss works as regularization to reduce the risk of overfitting.<br>
 ![Reconstruction]({{ '/assets/images/posts/2018-11-13-demystify-capsule-network-using-pytorch/reconstruction.png' | relative_url }})
+
 
 
 ```python
