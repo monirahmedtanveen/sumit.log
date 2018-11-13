@@ -321,8 +321,10 @@ v_j.size()
 
 
 
-Now we need to determine which primary capsule agrees with which digit capsule. We just simply compute it by the scalar product of each instance between predicted vector by primary capsule  $$\hat{u}_{i|j}$$ and digit capsules output $$v_j$$.
-$$a_{ij} = v_j .\hat{u}_{j|i}$$
+Now we need to determine which primary capsule agrees with which digit capsule. We just simply compute it by the scalar product of each instance between predicted vector by primary capsule  
+
+<!---$$\hat{u}_{i|j}$$ and digit capsules output $$v_j$$.
+$$a_{ij} = v_j .\hat{u}_{j|i}$$-->
 
 
 ```python
