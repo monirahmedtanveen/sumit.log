@@ -2,7 +2,7 @@
 layout: post
 comments: false
 title: "Demystify Capsule Network Using Pytorch"
-date: 2018-07-21 10:18:00
+date: 2018-11-13 10:18:00
 tags: computer-vision cnn review
 ---
 
