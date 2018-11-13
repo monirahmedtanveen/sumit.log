@@ -92,7 +92,7 @@ print('Output size - ', conv_layer_out.size())
 $$ output \ height = \dfrac{height - kernel\_size + 2 * padding}{stride} + 1$$ <br>
 $$ output \ width = \dfrac{width - kernel\_size + 2 * padding}{stride} + 1$$
 
-## Primary Capsule layer
+### Primary Capsule layer
 In this layer, we replace the scaler-output feature detector of CNN with 8-dim vector output capsule for inverse rendering. Each capsule represents every location or entity in the image and encodes different instantiation parameter such as pose (position, size, orientation), deformation, velocity, albedo, hue, texture, etc. If we make slight changes in the image, capsules values also changes accordingly. This is maintained throughout the network. This is called Equivarience. Traditional CNN fails to encode these feature due to the nature of scalar-output feature detector and pooling layers.    
 
 This layer can be designed using several Convolution layer. In the paper, authors used a stack of 8 Convolution layer each with 32 feature maps, kernel size of 9x9, stride 2 and zero padding. We pass the output of the first convolution through every convolution in this layer and our expected final output is $$[batch\_size, primary\_num\_capsule, primary\_capsule\_dim]$$. Here each capsules dimension should be 8 which is actually equal to the number of convolution layer in this layer. Initially we will get output tensor of shape $$[batch\_size, primary\_num\_conv, C_{out}, H_{out}, W_{out}]$$. So we need to reshape the initial output shape to get our expected shape.
@@ -195,7 +195,7 @@ primary_caps_vec.size()
 
 
 
-## Digit Capsule layer
+### Digit Capsule layer
 This final layer of Encoder has one 16 dimensional capsule for each digit class and each of these capsules receives input from all the capsules in Primary Capsule layer.
 
 Every capsule in the Primary layer tries to predict the output of every capsule in Digit layer. Output of primary capsules only send to those capsule in Digit capsule, if primary capsules prediction agrees with the ouput of digit capsule. We take this decision by 'Routing By Agreement'. Digit capsules will get only the appropriate output from primary capsules and more accurately determine the spatial information. We route only between primary and digit capsule because first convolution layer encode lower level features, there is no spatial information in its space to agree on. 
@@ -380,7 +380,7 @@ b_ij.size()
 
 According to the paper, we need to iterate step 4 to 7 three times.
 
-## Margin loss
+### Margin loss
 The paper uses a special margin loss to discriminate different digits. <br>
 $$ L_k = T_k \max(0, m^{+} - ||v_k||)^2 + \lambda (1 - T_k) \max(0, ||v_k|| - m^{-})^2$$<br>
 
@@ -477,7 +477,10 @@ margin_loss
 
 
 
-## Reconstruction
+## Decoder
+Decoder part consist of three Fully Connected layers. It took digit capsules output as input and reconstruct the same input image give.
+
+### Reconstruction
 In paper an additional reconstruction loss was used to encourage the digit capsules to encode the instantiation parameters of the input digit. During training, instead of using all the 16 dimensinal digit capsule they only use the capsule corresponds to the target digit and masked out other capsules to reconstruct the input image. These 16 dimensional digit capsules are feed into a decoder consisting of 3 fully connected layers and minimize the sum of squared differences between the outputs of the logistic units and the pixel intensities. Reconstruction loss was scale down by 0.0005 so that it does not dominate the margine loss during training. This loss works as regularization to reduce the risk of overfitting.<br>
 ![Reconstruction]({{ '/assets/images/posts/2018-11-13-demystify-capsule-network-using-pytorch/reconstruction.png' | relative_url }})
 
@@ -642,7 +645,7 @@ decoder_output.size()
 
 This decoder output is the reconstructed images of the input images. To plot the output image we need to resize this output vectors into 28x28 pixel like mnist.
 
-## Reconstruction Loss
+### Reconstruction Loss
 Now let's compute the reconstruction loss. It is just the sum squared difference between the input image and the reconstructed image.
 
 
@@ -659,7 +662,7 @@ reconstruction_loss
 
 
 
-## Final Loss
+### Final Loss
 The final loss is the sum of the margin loss and the reconstruction loss (scaled down by a factor of 0.0005 to ensure the margin loss dominates training)
 
 
