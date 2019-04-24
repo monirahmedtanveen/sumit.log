@@ -140,7 +140,10 @@ $$v_{j} = \dfrac{||s_j||^2}{1 + ||s_j||^2} \dfrac{s_j}{||s_j||}$$ <br>
 where $$v_j$$ is the output vector of capsule $$j$$ and $$s_j$$ is the total input from capsule $$j$$. <br>
 - Note <br>
 The derivative of $$||s_j||$$ is undefined when $$||s_j||=0$$. During training if a vector is zero, the gradients will be nan. To avoid this situation we add a tiny epsilon with squared norm then apply square root. <br>
-$$||s_j||  \approx  \sqrt{\sum\limits_{i}{{s_{i}}^{2}} + \epsilon}$$
+
+[//]: # $$||s_j||  \approx  \sqrt{\sum\limits_{i}{{s_{i}}^{2}} + \epsilon}$$ (commented out)
+
+![s_j updated]({{ '/assets/images/posts/2018-11-13-demystify-capsule-network-using-pytorch/equation.png' | relative_url }})
 
 The second part of sqash function $$\dfrac{s_j}{||s_j||}$$ is a unit vector means its length is 1 and the first part $$\dfrac{||s_j||^2}{1 + ||s_j||^2}$$ is a scalar, we scale the unit vector with this scalar to ensure long vectors length is close to 1 and short length is close to zero. 
 
