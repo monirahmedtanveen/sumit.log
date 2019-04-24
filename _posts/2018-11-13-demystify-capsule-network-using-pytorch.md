@@ -299,6 +299,8 @@ c_ij.size()
 Now compute the weighted sum of all the 'predicted output vectors' 
 $$\hat{u}_{j|i}$$
 for each digit capsule.
+
+
 $$s_j = \sum{c_{ij}\hat{u}_{j|i}}$$ 
 
 
