@@ -145,7 +145,8 @@ The derivative of $$||s_j||$$ is undefined when $$||s_j||=0$$. During training i
 
 ![s_j updated]({{ '/assets/images/posts/2018-11-13-demystify-capsule-network-using-pytorch/equation.png' | relative_url }})
 
-$$\frac { s_{ j } }{ ||s_{ j }|| }$$
+
+The second part of sqash function $$\frac { s_{ j } }{ ||s_{ j }|| }$$
 
 <!---The second part of sqash function $$\frac { s_{ j } }{ ||s_{ j }|| }$$ is a unit vector means its length is 1 and the first part $$\frac { ||s_{ j }||^{ 2 } }{ 1+||s_{ j }||^{ 2 } }$$ is a scalar, we scale the unit vector with this scalar to ensure long vectors length is close to 1 and short length is close to zero. 
 --->
