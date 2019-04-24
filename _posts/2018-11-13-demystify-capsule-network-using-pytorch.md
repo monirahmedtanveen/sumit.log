@@ -6,7 +6,7 @@ date: 2018-11-13 10:18:00
 tags: computer-vision cnn review
 ---
 
->  A major improvement on Convolutional Neural Network. Capsule Network more closely mimic biological neural organization and encode better hierarchical relationships.
+>  Capsule Network is a major improvement on Convolutional Neural Network (CNN), which mimic more closely biological neural organization and encode better hierarchical relationships among features.  Whereas, current CNN architectures have some major drawbacks while encoding these relations.  
 
 
 <!--more-->
