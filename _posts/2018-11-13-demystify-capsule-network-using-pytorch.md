@@ -141,7 +141,7 @@ where $$v_j$$ is the output vector of capsule $$j$$ and $$s_j$$ is the total inp
 - Note <br>
 The derivative of $$||s_j||$$ is undefined when $$||s_j||=0$$. During training if a vector is zero, the gradients will be nan. To avoid this situation we add a tiny epsilon with squared norm then apply square root. <br>
 
-[//]: # $$||s_j||  \approx  \sqrt{\sum\limits_{i}{{s_{i}}^{2}} + \epsilon}$$ (commented out)
+<!--- $$||s_j||  \approx  \sqrt{\sum\limits_{i}{{s_{i}}^{2}} + \epsilon}$$ (commented out) --->
 
 ![s_j updated]({{ '/assets/images/posts/2018-11-13-demystify-capsule-network-using-pytorch/equation.png' | relative_url }})
 
