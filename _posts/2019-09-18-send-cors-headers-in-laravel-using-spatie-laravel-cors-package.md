@@ -163,7 +163,7 @@ class ApiController extends Controller
 }
 ```
 
-Now create a controller named ‘UserController’ in ‘app\Http\Controllers\Api\V100\user’ folder. UserController will extend the ‘app\Http\Controllers\Api\V100\ApiController’ class. Next create index function inside the UserController which will fetch all the user data from the users table of database. Here is the code of UserController
+Now create a controller named <strong>UserController</strong> in <strong>app\Http\Controllers\Api\V100\user</strong> folder. <strong>UserController</strong> will extend the <strong>app\Http\Controllers\Api\V100\ApiController</strong> class. Next create index function inside the <strong>UserController</strong> which will fetch all the user data from the users table of database. Here is the code of <strong>UserController</strong>
 
 ```php
 <?php
@@ -191,7 +191,7 @@ class UserController extends ApiController
 }
 ```
 
-Now set up the api route prefix in <strong>app\Providers\RouteServiceProvider</strong> class. Here is the code of RouteServiceProvider class
+Now set up the api route prefix in <strong>app\Providers\RouteServiceProvider</strong> class. Here how the <strong>RouteServiceProvider</strong> class looks like
 
 ```php
 <?php
