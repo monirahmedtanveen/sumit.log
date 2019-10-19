@@ -512,7 +512,7 @@ Then from Postman make a post request to <strong>your-laravel-project-root/api/v
 [“name” : “jonh due(demo name)”, “email” : “john@gmail.com(demo email address)”]
 ```
 
-<img src="https://monirahmedtanveen.github.io/tech.logs/assets/images/posts/2019-09-18-send-cors-headers-in-laravel-using-spatie-laravel-cors-package/demo.png" alt="working demo">
+<img src="https://monirahmedtanveen.github.io/tech.logs/assets/images/posts/2019-09-04-socketio-implementation-using-laravel/demo.png" alt="working demo">
 
 You will see the posted user data will update on browser’s user list real time.
 
