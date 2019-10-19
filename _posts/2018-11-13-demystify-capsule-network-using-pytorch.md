@@ -1,12 +1,12 @@
 ---
 layout: post
 comments: false
-title: "Demystify Capsule Network Using Pytorch"
-date: 2018-11-13 10:18:00
-tags: computer-vision cnn review
+title: "Sheduling Task With Cron Job In Laravel"
+date: 2019-09-28 10:18:00
+tags: Laravel
 ---
 
->  Capsule Network is a major improvement on Convolutional Neural Network (CNN), which mimic more closely biological neural organization and encode better hierarchical relationships among features.  Whereas, current CNN architectures have some major drawbacks while encoding these relations.  
+>  Sometimes applications require some task to be run periodically on the server. It can be sending push notification, trashing unwanted data from database, creating backups etc. This can be done easily using cron job in laravel. This project has the code to send email using scheduler of laravel.
 
 
 <!--more-->
@@ -16,11 +16,7 @@ tags: computer-vision cnn review
 {:toc}
 
 ## Introduction
-CapsNet is inspired from Rendering process in Computer Graphics and tries to mimic Human Vision system based on an assumption. 
-
-In rendering, a scene file contains some instantiation parameters representing object's geometry, viewpoint, texture, lighting and shading information. Then these parameters are passed through a rendering program to output a digital image into the world. Where human vision system perceive an object using sequence of [fixation points](https://en.wikipedia.org/wiki/Fixation_%28visual%29). In the paper, authors assumed a single fixation point gives us much more than just a single identified object and its properties and our multi-layer visual system creates a parse tree-like structure on each fixation. The paper ignores the issue of how these single-fixation parse trees are coordinated over multiple fixations. Authors proposed a multi-layer neural architecture, where capsules works as fixation points by reversing the rendering process called inverse rendering. These capsule try to encode the instantiation parameters of presence, texture and spatial imformation given a object from its digital image. 
-
-> A capsule is a group of neurons whose activity vector represents the instantiation parameters of a specific type of entity such as an object or an object part. We use the length of the activity vector to represent the probability that the entity exists and its orientation to represent the instantiation parameters. 
+Sometimes applications require some task to be run periodically on the server. It can be sending push notification, trashing unwanted data from database, creating backups etc. This can be done easily using cron job in laravel. This project has the code to send email using scheduler of laravel.
 
 ## Cron
 ![Capsule Network]({{ '/assets/images/posts/2018-11-13-demystify-capsule-network-using-pytorch/model_architecture.png' | relative_url }})
@@ -71,7 +67,7 @@ print('labels - ', labels)
     labels -  [8 4 2 6 1]
     
 
-### Create New Artisan Command
+## Create New Artisan Command
 Now lets define the first Convolution layer with parameter mentioned in the paper and feed the input images. This layer will detect basic features in the image like straight edges, simple colors and curves. In the paper, the convolutional layer has 256 feature maps with kernel size of 9x9, stride 1 and zero padding, followed by non-linear activation ReLU and output a tensor of size 256x20x20.
 
 
@@ -92,7 +88,7 @@ print('Output size - ', conv_layer_out.size())
 $$ output \ height = \dfrac{height - kernel\_size + 2 * padding}{stride} + 1$$ <br>
 $$ output \ width = \dfrac{width - kernel\_size + 2 * padding}{stride} + 1$$
 
-### Starting the Laravel Scheduler
+## Starting the Laravel Scheduler
 In this layer, we replace the scaler-output feature detector of CNN with 8-dim vector output capsule for inverse rendering. Each capsule represents every location or entity in the image and encodes different instantiation parameter such as pose (position, size, orientation), deformation, velocity, albedo, hue, texture, etc. If we make slight changes in the image, capsules values also changes accordingly. This is maintained throughout the network. This is called Equivarience. Traditional CNN fails to encode these feature due to the nature of scalar-output feature detector and pooling layers.    
 
 This layer can be designed using several Convolution layer. In the paper, authors used a stack of 8 Convolution layer each with 32 feature maps, kernel size of 9x9, stride 2 and zero padding. We pass the output of the first convolution through every convolution in this layer and our expected final output is $$[batch\_size, primary\_num\_capsule, primary\_capsule\_dim]$$. Here each capsules dimension should be 8 which is actually equal to the number of convolution layer in this layer. Initially we will get output tensor of shape $$[batch\_size, primary\_num\_conv, C_{out}, H_{out}, W_{out}]$$. So we need to reshape the initial output shape to get our expected shape.
@@ -205,7 +201,7 @@ primary_caps_vec.size()
 
 
 
-### Source Code
+## Source Code
 This final layer of Encoder has one 16 dimensional capsule for each digit class and each of these capsules receives input from all the capsules in Primary Capsule layer.
 
 Every capsule in the Primary layer tries to predict the output of every capsule in Digit layer. Output of primary capsules only send to those capsule in Digit capsule, if primary capsules prediction agrees with the ouput of digit capsule. We take this decision by 'Routing By Agreement'. Digit capsules will get only the appropriate output from primary capsules and more accurately determine the spatial information. We route only between primary and digit capsule because first convolution layer encode lower level features, there is no spatial information in its space to agree on. 
