@@ -3,7 +3,7 @@ layout: post
 comments: false
 title: "Sheduling Task With Cron Job In Laravel"
 date: 2019-09-28 10:18:00
-tags: Laravel
+tags: laravel
 ---
 
 >  Sometimes applications require some task to be run periodically on the server. It can be sending push notification, trashing unwanted data from database, creating backups etc. This can be done easily using cron job in laravel. This project has the code to send email using scheduler of laravel.
@@ -19,53 +19,30 @@ tags: Laravel
 Sometimes applications require some task to be run periodically on the server. It can be sending push notification, trashing unwanted data from database, creating backups etc. This can be done easily using cron job in laravel. This project has the code to send email using scheduler of laravel.
 
 ## Cron
-![Capsule Network]({{ '/assets/images/posts/2018-11-13-demystify-capsule-network-using-pytorch/model_architecture.png' | relative_url }})
+Cron is a time-based task scheduler in Unix/Linux operating systems. It executes shell commands at a pre-specified time period. Cron uses a configuration file known as Crontab to handle the task scheduling process.
 
-Capsule Network has 2 part, Encoder and Decoder. Both consist of three layer.
-- [Encoder](#encoder) <br>
-    - Layer 1 - [Convolution layer](#convolution-layer)<br>
-    - Layer 2 - [Primary Capsule layer](#primary-capsule-layer)<br>
-    - Layer 3 - [Digit Capsule layer](#digit-capsule-layer)<br>
-- [Decoder](#decoder)<br>
-    - Layer 4 - [Fully Connected #1](#fully-connected-#1)<br>
-    - Layer 5 - [Fully Connected #2](#fully-connected-#2)<br>
-    - Layer 6 - [Fully Connected #3](#fully-connected-#3)<br>
+Crontab contains all the Cron jobs related to a specific task. Cron jobs are composed of two parts, the Cron expression, and a shell command that needs to be run.
 
-First import necessary libraries.
-
-
-```python
-import numpy as np
-
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
-import torch.nn.functional as F
-
-import matplotlib.pyplot as plt
+```php
+* * * * * command/to/run
 ```
+
+In the Cron expression above (* * * * *), each field is an option for determining the task schedule frequency. These options represent minute, hour, day of the month, month and day of the week in the given order. Asterisk symbol means all possible values. So, the above command will run every minute.
+
+The Cron job below will be executed at 6:20 on 10th of every month.
+
+```php
+20 6 10 * * command/to/run
+```
+
+You can learn more about Cron job on <a href="https://en.wikipedia.org/wiki/Cron" target="_blank">Wikipedia</a>. However, Laravel Cron Job Scheduling makes the whole process very easy.
 
 ## Creating New Laravel Project
-Encoder part of the network takes as input a 28x28 MNIST digit image and learns to encode it into 10x16-dimensional vectors as output of Digit Capsule layer. Where each 16 dimensional vector represents a capsule for each digit. This vectors are the instantiation parameters of the digits.
+Create a fresh laravel by running the following command on the terminal
 
-Lats start with some random input image (28×28 pixels, 1 color channel = grayscale) and label, like MNIST.
-- Pytorch convention -<br>
-     Conv Layer input size $$(N,C_{in},H,W)$$ and output size $$(N,C_{out},H_{out},W_{out})$$ <br>
-     here, N = # of sample, C = # of channel, H = height, W = width
-
-
-```python
-batch_size = 5
-input_images = np.random.rand(batch_size, 1, 28, 28)
-input_images = torch.from_numpy(input_images).float() # convert to pytorch tensor.
-labels = np.random.randint(0, 10, batch_size)
-print('image size - ', input_images.size())
-print('labels - ', labels)
-```
-
-    image size -  torch.Size([5, 1, 28, 28])
-    labels -  [8 4 2 6 1]
-    
+```php
+composer create-project --prefer-dist laravel/laravel cron-job
+```    
 
 ## Create New Artisan Command
 Now lets define the first Convolution layer with parameter mentioned in the paper and feed the input images. This layer will detect basic features in the image like straight edges, simple colors and curves. In the paper, the convolutional layer has 256 feature maps with kernel size of 9x9, stride 1 and zero padding, followed by non-linear activation ReLU and output a tensor of size 256x20x20.
