@@ -517,6 +517,7 @@ Then from Postman make a post request to <strong>your-laravel-project-root/api/v
 You will see the posted user data will update on browser’s user list real time.
 
 ## Source Code
-Click <a href="https://github.com/monirahmedtanveen/laravel-socketio-implementation" target="_blank">here</a> to go the source code.
+Click <a href="https://github.com/monirahmedtanveen/laravel-socketio-implementation
+" target="_blank">here</a> to go the source code.
 
 Thanks for reading. I hope you find this post useful.
