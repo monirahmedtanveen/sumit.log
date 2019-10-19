@@ -1,11 +1,11 @@
-title: Sumit'Log
-name: "Sumit's Notes"
-author: Sakhawat H Sumit
-linkedin_username: sakhawathsumit
-twitter_username: sakhawathsumit
-baseurl: "/sumit.log"
+title: Tech Logs
+name: "Monir's Notes"
+author: Monir Ahmed Tanveen
+linkedin_username: monirahmedtanveen
+twitter_username: monirtanveen
+baseurl: "/tech.logs"
 description: Document my learning notes.
-profile_url: "http://sakhawathsumit.github.io"
+profile_url: "https://monirahmedtanveen.github.io/"
 
 # Build settings
 markdown: kramdown
