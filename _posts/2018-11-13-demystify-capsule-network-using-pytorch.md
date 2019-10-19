@@ -45,25 +45,51 @@ composer create-project --prefer-dist laravel/laravel cron-job
 ```    
 
 ## Create New Artisan Command
-Now lets define the first Convolution layer with parameter mentioned in the paper and feed the input images. This layer will detect basic features in the image like straight edges, simple colors and curves. In the paper, the convolutional layer has 256 feature maps with kernel size of 9x9, stride 1 and zero padding, followed by non-linear activation ReLU and output a tensor of size 256x20x20.
+Go to your laravel projects root directory and run the folowing command to create an artisan command.
 
-
-```python
-conv_layer = nn.Conv2d(in_channels=1, out_channels=256, 
-                  kernel_size=9, stride=1, padding=0)
-print('Weight matrix size- ', conv_layer.weight.data.size())
-
-conv_layer_out = F.relu(conv_layer(input_images))
-print('Output size - ', conv_layer_out.size())
+```php
+php artisan make:command SendEmailToUser
 ```
 
-    Weight matrix size-  torch.Size([256, 1, 9, 9])
-    Output size -  torch.Size([5, 256, 20, 20])
-    
+It will creates a class named SendEmailToUser in app\Console\Commands directory. Now edit the SendEmailToUser to create an artisan command.
 
-- Calculate output of convolution layer <br>
-$$ output \ height = \dfrac{height - kernel\_size + 2 * padding}{stride} + 1$$ <br>
-$$ output \ width = \dfrac{width - kernel\_size + 2 * padding}{stride} + 1$$
+```php
+/**
+* The name and signature of the console command.
+*
+* @var string
+*/
+protected $signature = 'send:email';
+
+/**
+* The console command description.
+*
+* @var string
+*/
+protected $description = 'Sending a notification email about task to all users';
+
+Now you have to register the command in app\Console\Kernel.php file.
+
+/**
+* The Artisan commands provided by your application.
+*
+* @var array
+*/
+protected $commands = [
+   ...
+   'App\Console\Commands\SendEmailToUser',
+];
+```
+
+After that define the command schedule in schedule function of app\Console\Kernel.php file.
+
+```php
+protected function schedule(Schedule $schedule)
+{
+    $schedule->command('send:email')
+        ->everyMinute();    /** Run the task every minute */
+}
+```
 
 ## Starting the Laravel Scheduler
 In this layer, we replace the scaler-output feature detector of CNN with 8-dim vector output capsule for inverse rendering. Each capsule represents every location or entity in the image and encodes different instantiation parameter such as pose (position, size, orientation), deformation, velocity, albedo, hue, texture, etc. If we make slight changes in the image, capsules values also changes accordingly. This is maintained throughout the network. This is called Equivarience. Traditional CNN fails to encode these feature due to the nature of scalar-output feature detector and pooling layers.    
