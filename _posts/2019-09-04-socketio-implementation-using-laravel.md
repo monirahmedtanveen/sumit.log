@@ -1,12 +1,12 @@
 ---
 layout: post
 comments: false
-title: "Sheduling Task With Cron Job In Laravel"
-date: 2019-09-28 10:18:00
+title: "Socketio Implementation Using Laravel"
+date: 2019-09-04 10:18:00
 tags: laravel
 ---
 
->  Sometimes applications require some task to be run periodically on the server. It can be sending push notification, trashing unwanted data from database, creating backups etc. This can be done easily using cron job in laravel. This project has the code to send email using scheduler of laravel.
+>  Websockets is a web technology, which allows bi-directional, real-time communications between web client and a server. As  part of the HTML5 specification it works with the newest web browsers (including Internet Explorer 10 and its latest versions).
 
 
 <!--more-->
@@ -16,35 +16,61 @@ tags: laravel
 {:toc}
 
 ## Introduction
-Sometimes applications require some task to be run periodically on the server. It can be sending push notification, trashing unwanted data from database, creating backups etc. This can be done easily using cron job in laravel. This project has the code to send email using scheduler of laravel.
+Websockets is a web technology, which allows bi-directional, real-time communications between web client and a server. As  part of the HTML5 specification it works with the newest web browsers (including Internet Explorer 10 and its latest versions).
 
-## Cron
-Cron is a time-based task scheduler in Unix/Linux operating systems. It executes shell commands at a pre-specified time period. Cron uses a configuration file known as Crontab to handle the task scheduling process.
+Socket.IO is a JavaScript library that helps improving work with WebSockets. It consists of two parts – server part (for Node.JS) and clients part (for web browsers). Both of them have similiar APIs based on event-driven architecture. Socket.IO allows to use additional features such as sending data to large number of sockets at the same time (broadcasting) or storing the data.
 
-Crontab contains all the Cron jobs related to a specific task. Cron jobs are composed of two parts, the Cron expression, and a shell command that needs to be run.
+The main idea behind Socket.IO is the ability to send and receive any events with any data. It can be any object as well as a binary data.
+
+## Prequisite
+For successfull implementation of socketio some backend application need to be run. For this some dependencies need to be installed in your machine. Here are the list of dependencies and their installation process given.
+
+<ul>
+    <li>Redis Server</li>
+    <li>NodeJs & npm</li>
+</ul>
+
+### Redis Server Installation
+For Windows Environment, go to this link :- <a href="https://github.com/microsoftarchive/redis/releases" target="_blank">redis server</a> and download <strong>Redis-x64-3.0.504.zip</strong> file. After download unzip it and run the <strong>redis-server.exe</strong>.
+
+For Linux Environment, command to install redis server :-
+
+Update the apt-get packages :-
 
 ```php
-* * * * * command/to/run
+sudo apt-get update
 ```
 
-In the Cron expression above (* * * * *), each field is an option for determining the task schedule frequency. These options represent minute, hour, day of the month, month and day of the week in the given order. Asterisk symbol means all possible values. So, the above command will run every minute.
-
-The Cron job below will be executed at 6:20 on 10th of every month.
+Next run below command from the terminal to install Redis on your machine :-
 
 ```php
-20 6 10 * * command/to/run
+sudo apt-get install redis-server
 ```
 
-You can learn more about Cron job on <a href="https://en.wikipedia.org/wiki/Cron" target="_blank">Wikipedia</a>. However, Laravel Cron Job Scheduling makes the whole process very easy.
-
-## Creating New Laravel Project
-Create a fresh laravel by running the following command on the terminal
+Next is to enable Redis to start on system boot. Also restart Redis service once.
 
 ```php
-composer create-project --prefer-dist laravel/laravel cron-job
-```    
+sudo systemctl enable redis-server.service
+```
 
-## Create New Artisan Command
+#### Install Redis PHP Extension 
+If you need to use Redis from PHP application, you also need to install Redis PHP extension on your Ubuntu system. In our case it is mandatory. Run below command to install:
+
+```php
+sudo apt-get install php-redis
+```
+
+#### Test Connection to Redis Server
+type below command and see the output,
+
+```php
+command :- "redis-cli"
+output :- 127.0.0.1:6379>
+command :- "ping"
+output :- PONG (It output PONG if connection successful)
+```
+
+## Redis Server Installation
 Go to your laravel projects root directory and run the folowing command to create an artisan command.
 
 ```php
