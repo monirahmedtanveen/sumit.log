@@ -6,7 +6,7 @@ date: 2019-08-28 11:35:00
 tags: laravel
 ---
 
->  Laravel Snappy package uses <a href="https://wkhtmltopdf.org/" target="_black">Wkhtmltopdf</a> to convert html to pdf. The performance of this package is way better then some other pdf generating library which is wriiten in php like :- dompdf, mpdf, tcpdf etc.
+>  Laravel Snappy package uses Wkhtmltopdf to convert html to pdf. The performance of this package is way better then some other pdf generating library which is wriiten in php like :- dompdf, mpdf, tcpdf etc.
 
 
 <!--more-->
