@@ -1,2 +1,2 @@
-# Sumit'Log
-Sumit's Blog Page https://sakhawathsumit.github.io/sumit.log/.
+# Monir Ahmed Tanveen's Techinal Blog Page
+Monir Ahmed Tanveen's Blog Page https://monirahmedtanveen.github.io/tech.logs/
